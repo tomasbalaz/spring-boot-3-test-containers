@@ -15,25 +15,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@Testcontainers
 class CustomerRepositoryTest {
 
+  @Container
   static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
 
   @Autowired
   CustomerRepository customerRepository;
-
-  @BeforeAll
-  static void beforeAll() {
-    postgres.start();
-  }
-
-  @AfterAll
-  static void afterAll() {
-    postgres.stop();
-  }
 
   @DynamicPropertySource
   static void configureProperties(DynamicPropertyRegistry registry) {
