@@ -4,6 +4,7 @@ package sk.balaz.springboot3testcontainers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,15 @@ class CustomerRepositoryTest {
     List<Customer> customerList = customerRepository.findAll();
     assertThat(customerList).hasSize(2);
 
+  }
+
+  @Test
+  void shouldLoginSuccessfully() {
+    Customer customer = new Customer(null, "John", "john@email.com");
+
+    customerRepository.save(customer);
+
+    Optional<Customer> optionalCustomer = customerRepository.findByEmailAndName("john@email.com", "John");
+    assertThat(optionalCustomer).isPresent();
   }
 }
